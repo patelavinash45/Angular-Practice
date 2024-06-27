@@ -1,0 +1,126 @@
+<div class="container fs-4 border border-1 rounded-3 p-3 mt-5 shadow">
+    <div class="d-flex justify-content-between align-items-center mx-2">
+        <header class="fs-3 fw-bold d-flex justify-content-center">
+            List of Food
+        </header>
+        <a class="btn bg-success text-white me-2" [routerLink]="['/Food/Add']">
+            Add FoodItem
+        </a>
+    </div>
+    <hr />
+    <div class="d-flex">
+        <input type="search" class="w-50 rounded-2 mx-2" placeholder="Search"
+            (input)="searchItem($event)" />
+        <select (change)="onFoodTypeSelectChange($event)"
+            class="w-50 rounded-2 mx-2">
+            <option value=0>No Filter</option>
+            <option value=1>Veg</option>
+            <option value=2>Non Veg</option>
+        </select>
+    </div>
+    <div class="table-responsive">
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th class="col-1">
+                        Index
+                    </th>
+                    <th class="col-3">
+                        Name
+                    </th>
+                    <th class="col-2">
+                        Is-Veg
+                    </th>
+                    <th class="col-3">
+                        Price
+                        <button class="border-0 bg-white fs-5 fs-bold"
+                            (click)="onPriceFilterChange()">
+                            @if(filterDto.lowToHigh){
+                            <i class="bi bi-sort-numeric-up"></i>
+                            }
+                            @else{
+                            <i class="bi bi-sort-numeric-down-alt"></i>
+                            }
+                        </button>
+                    </th>
+                    <th class="col-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(foodItem of foodItems; track foodItem.foodId; let i=$index)
+                {
+                @defer () {
+                <tr>
+                    <td>
+                        {{i +1 }}
+                    </td>
+                    <td>
+                        {{foodItem.name | uppercase }}
+                    </td>
+                    <td>
+                        {{foodItem.isVeg}}
+                    </td>
+                    <td>
+                        {{foodItem.price | currency:"INR":true:'2.2-2'}}
+                    </td>
+                    <td>
+                        <button class="btn bg-danger mx-2 text-white"
+                            (click)="deleteFoodItem(foodItem.foodId)">
+                            Delete
+                        </button>
+                        <a class="btn bg-primary text-white me-2"
+                            [routerLink]="['/Food/View/', foodItem.foodId]">
+                            View
+                        </a>
+                        <button class="btn bg-primary text-white"
+                            (click)="navigateToEditPage(foodItem)">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center fs-5">
+        <div>
+            Showing no of Items
+            <select class="mx-2 rounded-2"
+                (change)="onPageSizeSelectChange($event)">
+                <option value=5 selected>5</option>
+                <option value=7>7</option>
+                <option value=10>10</option>
+                <option value=12>12</option>
+                <option value=15>15</option>
+                <option value=20>20</option>
+            </select>
+        </div>
+        <div>
+            <nav>
+                @defer(){
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link"
+                            (click)="changePageNo(details.currentPageNo - 1)"
+                            [ngClass]="{'disabled': !details.isPrevious}">Previous</button>
+                    </li>
+                    <li class="page-item active">
+                        <button
+                            class="page-link disabled bg-primary text-white">{{details.currentPageNo}}</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link"
+                            (click)="changePageNo(details.currentPageNo + 1)"
+                            [ngClass]="{'disabled': !details.isNext}">Next</button>
+                    </li>
+                </ul>
+                }
+                @loading{}
+            </nav>
+        </div>
+    </div>
+</div>
+<app-delete-modal></app-delete-modal>
