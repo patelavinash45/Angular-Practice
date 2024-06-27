@@ -3,7 +3,7 @@
     <div class="w-100 text-center fs-3 fw-bold mb-2">
         Log In
     </div>
-    <form [formGroup]="logInForm" (submit)="fromSubmit()">
+    <form [formGroup]="logInForm" (submit)="fromSubmit()" class="shadow-lg p-3 rounded-2">
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="floatingInput"
                 formControlName="email"

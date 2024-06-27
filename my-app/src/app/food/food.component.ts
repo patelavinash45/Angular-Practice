@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { DeleteModalComponent } from '../ChildComponents/delete-modal/delete-modal.component';
 import { FilterDto } from '../../Interfaces/filter-dto';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -25,7 +26,19 @@ export class FoodComponent {
     foodType: 0,
   };
   @ViewChild(DeleteModalComponent) deleteModal!: DeleteModalComponent;
-  constructor(public apiCallService: APICallService, private router: Router) { }
+  private searchSubject = new Subject<string>();
+
+  constructor(public apiCallService: APICallService, private router: Router) {
+    this.searchSubject.pipe(
+      debounceTime(300), 
+    distinctUntilChanged() 
+  ).subscribe((searchTerm: string) => {
+    this.pageNo = 1;
+    this.filterDto.searchElement = searchTerm;
+    console.log(searchTerm);
+    //this.getData();
+  });
+   }
 
   getData() {
     this.apiCallService.GetAll(this.pageNo, this.pageSize, this.filterDto).subscribe((data) => {
@@ -39,6 +52,7 @@ export class FoodComponent {
   }
 
   onPageSizeSelectChange(event: any) {
+    this.pageNo = 1;
     this.pageSize = event.target.value;
     this.getData();
   }
@@ -59,8 +73,9 @@ export class FoodComponent {
   }
 
   searchItem(event: any) {
-    this.filterDto.searchElement = event.target.value;
-    this.getData();
+    this.pageNo = 1;
+  this.searchSubject.next(event.target.value);
+    //this.getData();
   }
 
   deleteFoodItem(foodId: number) {
@@ -72,5 +87,10 @@ export class FoodComponent {
     this.router.navigate(['/Food/Edit/', foodItem.foodId], {
       state: { foodItem },
     });
+  }
+
+  LogOut() {
+    localStorage.removeItem("jwtToken");
+    this.router.navigate(['/LogIn']);
   }
 }

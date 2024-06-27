@@ -3,11 +3,13 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ShowToasterService } from '../show-toaster.service';
+import { Router } from '@angular/router';
 
 export const apiCallInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const platformId = inject(PLATFORM_ID);
   const isBrowser = isPlatformBrowser(platformId);
   const toaster = inject(ShowToasterService);
+  const router = inject(Router)
 
   if (isBrowser) {
     const token = localStorage.getItem('jwtToken');
@@ -19,9 +21,8 @@ export const apiCallInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, nex
     });
     return next(newRequest).pipe(
       catchError(errorResponse => {
-        console.log(errorResponse);
-        console.log(errorResponse.error.errorMessage);
         toaster.showErrorMessage(errorResponse.error.errorMessage);
+        router.navigate(['/LogIn']);
         return throwError(errorResponse);
       })
     );

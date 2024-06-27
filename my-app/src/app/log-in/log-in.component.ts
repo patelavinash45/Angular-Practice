@@ -32,7 +32,6 @@ export class LogInComponent {
   fromSubmit() {
     if (this.logInForm.valid) {
       this.apiCallService.LogIn(this.logInForm.value).subscribe((response) => {
-        console.log(response);
         this.toaster.showSuccessMessage("Log In Successfully.");
         localStorage.setItem('jwtToken', response.result.jwtToken);
         this.router.navigate(['/Food']);

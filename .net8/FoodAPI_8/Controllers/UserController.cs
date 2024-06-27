@@ -78,5 +78,21 @@ namespace FoodAPI.Controllers
                 return BadRequest(HelperClass.ManageBadResponse(e.ToString()));
             }
         }
+
+        [Authorization]
+        [HttpGet("ValidateJwtToken", Name = "ValidateJwtToken")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<APIResponse> ValidateJwtToken()
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(HelperClass.ManageBadResponse(e.ToString()));
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ public class Authorization : Attribute, IAuthorizationFilter
         IHeaderDictionary header = context.HttpContext.Request.Headers;
         if (!header.TryGetValue("Authorization", out StringValues authorization))
         {
-            context.Result = new BadRequestObjectResult(HelperClass.ManageBadResponse("Authorization header missing"));
+            context.Result = new BadRequestObjectResult(HelperClass.ManageBadResponse("Authorization header missing."));
             return;
         }
         else

@@ -6,6 +6,7 @@ import { FoodAddComponent } from '../app/food-add/food-add.component';
 import { LogInComponent } from '../app/log-in/log-in.component';
 import { authGuard } from './Guard/auth.guard';
 import { formGuard } from './Guard/form.guard';
+import { logInGuard } from './Guard/log-in.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'LogIn', pathMatch: 'full' },
@@ -31,18 +32,21 @@ export const routes: Routes = [
         data: {
           state: 'data',
         },
-        canDeactivate: [formGuard]
       },
       {
         path: 'Add',
         component: FoodAddComponent,
         title: 'Add Food',
-        canDeactivate: [formGuard]
       },
     ],
   },
   {
     path: 'LogIn',
     component: LogInComponent,
+    canActivate: [logInGuard]
   },
+  {
+    path: '**',
+    redirectTo: 'LogIn',
+  }
 ];

@@ -3,9 +3,15 @@
         <header class="fs-3 fw-bold d-flex justify-content-center">
             List of Food
         </header>
-        <a class="btn bg-success text-white me-2" [routerLink]="['/Food/Add']">
-            Add FoodItem
-        </a>
+        <div>
+            <a class="btn bg-success text-white me-2"
+                [routerLink]="['/Food/Add']">
+                Add FoodItem
+            </a>
+            <button class="btn bg-danger text-white me-2" (click)="LogOut()">
+                Log Out
+            </button>
+        </div>
     </div>
     <hr />
     <div class="d-flex">
@@ -54,7 +60,7 @@
                 @defer () {
                 <tr>
                     <td>
-                        {{i +1 }}
+                        {{(pageNo* pageSize)-(pageSize-i) +1}}
                     </td>
                     <td>
                         {{foodItem.name | uppercase }}

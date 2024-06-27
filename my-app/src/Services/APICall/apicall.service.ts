@@ -43,4 +43,8 @@ export class APICallService {
   public LogIn(user: any): Observable<any> {
     return this.httpClient.patch(this.baseUrl + '/User/ValidateUser', user);
   }
+
+  public ValidateToken(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/User/ValidateJwtToken`);
+  }
 }
