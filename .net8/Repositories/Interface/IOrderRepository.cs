@@ -2,8 +2,8 @@ using Repositories.DataModels;
 
 namespace Repositories.Interface
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<bool> AddOrder(Order order);
+
     }
 }

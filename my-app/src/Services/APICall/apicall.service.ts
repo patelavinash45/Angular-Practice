@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { FoodItem } from '../../Interfaces/food-item';
 import { FilterDto } from '../../Interfaces/filter-dto';
-import { error } from 'jquery';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +22,7 @@ export class APICallService {
   }
 
   public UpdateFoodItem(foodId: number, foodItem: FoodItem): Observable<any> {
-    return this.httpClient.post(
+    return this.httpClient.put(
       this.baseUrl + '/Food/UpdateFood/' + foodId,
       JSON.stringify(foodItem)
     );

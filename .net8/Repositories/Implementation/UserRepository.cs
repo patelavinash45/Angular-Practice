@@ -4,19 +4,12 @@ using Repositories.Interface;
 
 namespace Repositories.Implementation
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private readonly FoodContext _foodContext;
-        public UserRepository(FoodContext foodContext)
+        public UserRepository(FoodContext foodContext) : base(foodContext)
         {
             _foodContext = foodContext;
-        }
-
-        public async Task<int> AddUser(User user)
-        {
-            _foodContext.Users.Add(user);
-            await _foodContext.SaveChangesAsync();
-            return user?.UserId ?? 0;
         }
 
         public User? GetUser(string email)

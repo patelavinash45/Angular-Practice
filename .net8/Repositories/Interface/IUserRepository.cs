@@ -2,10 +2,8 @@ using Repositories.DataModels;
 
 namespace Repositories.Interface
 {
-    public interface IUserRepository
+    public interface IUserRepository : IGenericRepository<User>
     {
-        Task<int> AddUser(User user);
-
         User? GetUser(string email);
 
         User? ValidateUser(string email, string password);

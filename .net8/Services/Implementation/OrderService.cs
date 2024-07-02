@@ -16,7 +16,7 @@ namespace Services.Implementation
 
         public Task<bool> AddOrder(OrderDto orderDto, int userId)
         {
-            return _orderRepository.AddOrder(new Order()
+            return _orderRepository.Add(new Order()
             {
                 UserId = userId,
                 Date = DateTime.Now,

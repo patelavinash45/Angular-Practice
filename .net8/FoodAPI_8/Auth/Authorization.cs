@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using FoodAPI.StaticMethods;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
@@ -20,7 +21,7 @@ public class Authorization : Attribute, IAuthorizationFilter
             IJwtService? jwtService = context.HttpContext.RequestServices.GetService<IJwtService>();
             if (jwtService == null || !jwtService.ValidateToken(authorization[0], out jwtToken))
             {
-                context.Result = new BadRequestObjectResult(HelperClass.ManageBadResponse("Authorization Token Is Invalid."));
+                context.Result = new UnauthorizedObjectResult(HelperClass.ManageBadResponse("Authorization Token Is Invalid."));
                 return;
             }
         }

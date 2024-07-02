@@ -19,19 +19,22 @@ namespace Services.Implementation
             User? user = _userRepository.GetUser(createUserDto.Email);
             if (user == null)
             {
-                int userId = await _userRepository.AddUser(new User()
+                user = new User()
                 {
                     Email = createUserDto.Email,
                     Password = createUserDto.Password,
                     Name = createUserDto.Name,
                     Phone = createUserDto.Phone
-                });
-                return new JwtUserDto()
-                {
-                    UserId = userId,
-                    Email = user.Email,
-                    Name = user.Name
                 };
+                if (await _userRepository.Add(user))
+                {
+                    return new JwtUserDto()
+                    {
+                        UserId = user.UserId,
+                        Email = user.Email,
+                        Name = user.Name
+                    };
+                }
             }
             return null;
         }

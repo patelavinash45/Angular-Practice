@@ -17,11 +17,13 @@ namespace FoodAPI.Controllers
         private readonly string? _configurationString;
         private readonly ICartService _cartService;
         private readonly IOrderService _orderService;
+        private readonly IFoodService _foodService;
 
-        public FoodController(IConfiguration configuration, ICartService cartService, IOrderService orderService)
+        public FoodController(IConfiguration configuration, ICartService cartService, IOrderService orderService, IFoodService foodService)
         {
             _cartService = cartService;
             _orderService = orderService;
+            _foodService = foodService;
             _configurationString = configuration.GetConnectionString("DefaultString");
         }
 
@@ -34,7 +36,7 @@ namespace FoodAPI.Controllers
         {
             try
             {
-                var foodList = _cartService.GetFoodDtos(filterDto, pageNo, pageSize);
+                var foodList = _foodService.GetFoodDtos(filterDto, pageNo, pageSize);
                 return Ok(HelperClass.ManageOkResponse(foodList));
             }
             catch (Exception e)
@@ -56,7 +58,7 @@ namespace FoodAPI.Controllers
                 {
                     return BadRequest(HelperClass.ManageBadResponse("FoodId Invalid."));
                 }
-                var foodList = _cartService.GetFood(foodId);
+                var foodList = _foodService.GetFood(foodId);
                 if (foodList != null)
                 {
                     return Ok(HelperClass.ManageOkResponse(foodList));
@@ -82,7 +84,7 @@ namespace FoodAPI.Controllers
                 {
                     return BadRequest(HelperClass.ManageBadResponse("Food Is Invalid."));
                 }
-                int foodId = await _cartService.AddFood(createFoodDto);
+                int foodId = await _foodService.AddFood(createFoodDto);
                 if (foodId > 0)
                 {
                     return Ok(HelperClass.ManageOkResponse(new List<int>() { foodId }));
@@ -95,7 +97,7 @@ namespace FoodAPI.Controllers
             }
         }
 
-        [HttpPost("UpdateFood/{foodId}", Name = "UpdateFood")]
+        [HttpPut("UpdateFood/{foodId}", Name = "UpdateFood")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -108,7 +110,7 @@ namespace FoodAPI.Controllers
                 {
                     return BadRequest(HelperClass.ManageBadResponse("Food Is Invalid."));
                 }
-                if (await _cartService.UpdateFood(foodDto, foodId))
+                if (await _foodService.UpdateFood(foodDto, foodId))
                 {
                     return Ok(HelperClass.ManageOkResponse(foodDto));
                 }
@@ -133,7 +135,7 @@ namespace FoodAPI.Controllers
                 {
                     return BadRequest(HelperClass.ManageBadResponse("FoodId Invalid."));
                 }
-                if (await _cartService.DeleteFood(foodId))
+                if (await _foodService.DeleteFood(foodId))
                 {
                     return Ok(HelperClass.ManageOkResponse(new List<int>() { foodId }));
                 }
