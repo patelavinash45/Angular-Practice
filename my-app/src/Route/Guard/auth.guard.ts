@@ -8,8 +8,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
   const router = inject(Router);
-  const toaster = inject(ShowToasterService);
-  toaster.showErrorMessage("Authorization Token Missing.");
   router.navigate(['/LogIn']);
   return false;
 };

@@ -36,7 +36,7 @@ namespace Services.Implementation
         public Task<bool> ChangeCart(int userId, int cartId, int newCount)
         {
             Cart? cart = _cartRepository.GetCart(userId: userId, cartId: cartId);
-            cart.Count = newCount;
+            cart!.Count = newCount;
             return _cartRepository.Update(cart);
         }
 

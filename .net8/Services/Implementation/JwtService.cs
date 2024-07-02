@@ -19,7 +19,8 @@ namespace Services.Implementation
 
         public string CreateJwtToken(JwtUserDto user)
         {
-            List<Claim> claims = new List<Claim>{
+            List<Claim> claims = new()
+            {
                 new("userId", user.UserId.ToString()),
                 new("name", user.Name),
                 new("email", user.Email)

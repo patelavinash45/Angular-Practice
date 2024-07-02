@@ -55,10 +55,11 @@
                 </tr>
             </thead>
             <tbody>
-                @for(foodItem of foodItems; track foodItem.foodId; let i=$index)
+                @for(foodItem of foodItems; track foodItem.foodId; let i=$index;)
                 {
                 @defer () {
-                <tr>
+                <tr [ngClass]="'animation'+(i+1)" 
+                    [style.animation.delay]="((i+1)*0.2)+'s'">
                     <td>
                         {{(pageNo* pageSize)-(pageSize-i) +1}}
                     </td>
@@ -69,7 +70,7 @@
                         {{foodItem.isVeg}}
                     </td>
                     <td>
-                        {{foodItem.price | currency:"INR":true:'2.2-2'}}
+                        {{foodItem.price | currency:'INR'}}
                     </td>
                     <td>
                         <button class="btn bg-danger mx-2 text-white"
@@ -97,9 +98,7 @@
             <select class="mx-2 rounded-2"
                 (change)="onPageSizeSelectChange($event)">
                 <option value=5 selected>5</option>
-                <option value=7>7</option>
                 <option value=10>10</option>
-                <option value=12>12</option>
                 <option value=15>15</option>
                 <option value=20>20</option>
             </select>

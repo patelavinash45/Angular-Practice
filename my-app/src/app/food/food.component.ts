@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FoodItem } from '../../Interfaces/food-item';
 import { APICallService } from '../../Services/APICall/apicall.service';
 import { CommonModule } from '@angular/common';
@@ -26,19 +26,19 @@ export class FoodComponent {
     foodType: 0,
   };
   @ViewChild(DeleteModalComponent) deleteModal!: DeleteModalComponent;
+  @Input() animationTime: number = 0.2;
   private searchSubject = new Subject<string>();
 
   constructor(public apiCallService: APICallService, private router: Router) {
     this.searchSubject.pipe(
-      debounceTime(300), 
-    distinctUntilChanged() 
-  ).subscribe((searchTerm: string) => {
-    this.pageNo = 1;
-    this.filterDto.searchElement = searchTerm;
-    console.log(searchTerm);
-    //this.getData();
-  });
-   }
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((searchTerm: string) => {
+      this.pageNo = 1;
+      this.filterDto.searchElement = searchTerm;
+      this.getData();
+    });
+  }
 
   getData() {
     this.apiCallService.GetAll(this.pageNo, this.pageSize, this.filterDto).subscribe((data) => {
@@ -73,9 +73,7 @@ export class FoodComponent {
   }
 
   searchItem(event: any) {
-    this.pageNo = 1;
-  this.searchSubject.next(event.target.value);
-    //this.getData();
+    this.searchSubject.next(event.target.value);
   }
 
   deleteFoodItem(foodId: number) {
