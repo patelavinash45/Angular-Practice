@@ -58,7 +58,7 @@
                 @for(foodItem of foodItems; track foodItem.foodId; let i=$index;)
                 {
                 @defer () {
-                <tr [ngClass]="'animation'+(i+1)" 
+                <tr [ngClass]="'animation'+(i+1)"
                     [style.animation.delay]="((i+1)*0.2)+'s'">
                     <td>
                         {{(pageNo* pageSize)-(pageSize-i) +1}}
@@ -73,7 +73,7 @@
                         {{foodItem.price | currency:'INR'}}
                     </td>
                     <td>
-                        <button class="btn bg-danger mx-2 text-white"
+                        <button class="btn bg-danger mx-2 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"
                             (click)="deleteFoodItem(foodItem.foodId)">
                             Delete
                         </button>
@@ -105,7 +105,7 @@
         </div>
         <div>
             <nav>
-                @defer(){
+                @defer(when details != null){
                 <ul class="pagination">
                     <li class="page-item">
                         <button class="page-link"

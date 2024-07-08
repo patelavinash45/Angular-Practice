@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace Repositories.DataModels;
 
 [Table("FoodList")]
-public partial class FoodList
+public class FoodList
 {
     [Key]
     public int FoodId { get; set; }

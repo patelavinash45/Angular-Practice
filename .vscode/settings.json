@@ -3,6 +3,7 @@
         "apicall",
         "Dtos",
         "Hmac",
-        "Newtonsoft"
+        "Newtonsoft",
+        "Npgsql"
     ]
 }

@@ -17,9 +17,8 @@ export class DeleteModalComponent {
   constructor(private apiCallService: APICallService, private router: Router) { }
 
   conformDelete() {
-    $('#exampleModal').modal('hide');
     this.apiCallService.DeleteFoodItem(this.foodId).subscribe(() => {
-      this.router.navigate(['/Food']);
+      this.router.navigateByUrl('/Food');
     });
   }
 }

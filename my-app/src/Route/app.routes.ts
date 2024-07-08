@@ -5,7 +5,6 @@ import { FoodEditComponent } from '../app/food-edit/food-edit.component';
 import { FoodAddComponent } from '../app/food-add/food-add.component';
 import { LogInComponent } from '../app/log-in/log-in.component';
 import { authGuard } from './Guard/auth.guard';
-import { formGuard } from './Guard/form.guard';
 import { logInGuard } from './Guard/log-in.guard';
 
 export const routes: Routes = [
@@ -13,7 +12,7 @@ export const routes: Routes = [
   {
     path: 'Food',
     component: FoodComponent,
-    canActivate: [authGuard],
+    //canActivate: [authGuard],
     title: 'Food'
   },
   {

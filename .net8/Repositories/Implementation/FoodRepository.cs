@@ -12,10 +12,13 @@ namespace Repositories.Implementation
             _foodContext = foodContext;
         }
 
-        public int CountFoodList(string? searchElement)
+        public int CountFoodList(string? searchElement, int foodType)
         {
             Func<FoodList, bool> foodPredicate = (a =>
-                searchElement == null || a.Name.ToLower().Contains(searchElement.ToLower()));
+                (searchElement == null || a.Name.ToLower().Contains(searchElement.ToLower()))
+                && (foodType == 0
+                || (foodType == 1 && a.IsVeg == true)
+                || (foodType == 2 && a.IsVeg == false)));
             return _foodContext.FoodLists.Count(foodPredicate);
         }
 

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { FoodItem } from '../../Interfaces/food-item';
 import { APICallService } from '../../Services/APICall/apicall.service';
 import { CommonModule } from '@angular/common';
@@ -58,11 +58,13 @@ export class FoodComponent {
   }
 
   onFoodTypeSelectChange(event: any) {
+    this.pageNo = 1;
     this.filterDto.foodType = event.target.value;
     this.getData();
   }
 
   onPriceFilterChange() {
+    this.pageNo = 1;
     this.filterDto.lowToHigh = !this.filterDto.lowToHigh;
     this.getData();
   }
@@ -78,7 +80,6 @@ export class FoodComponent {
 
   deleteFoodItem(foodId: number) {
     this.deleteModal.foodId = foodId;
-    $('#exampleModal').modal('show');
   }
 
   navigateToEditPage(foodItem: FoodItem) {

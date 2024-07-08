@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FoodItem } from '../../Interfaces/food-item';
 import { FilterDto } from '../../Interfaces/filter-dto';
+import { baseUrl } from '../../app/Const';
 
 @Injectable({
   providedIn: 'root',
 })
 export class APICallService {
-  private baseUrl = 'http://localhost:5046';
+  private baseUrl = baseUrl;
   constructor(private httpClient: HttpClient) { }
 
   public GetAll(pageNo: number, pageSize: number, filterDto: FilterDto): Observable<any> {

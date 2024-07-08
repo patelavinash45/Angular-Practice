@@ -9,6 +9,7 @@ public class FoodDto
     public required string Name { get; set; }
 
     public required double Price { get; set; }
+
 }
 
 public class CreateFoodDto

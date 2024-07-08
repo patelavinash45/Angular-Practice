@@ -36,13 +36,7 @@ namespace Services.Implementation
             FoodList? foodList = _foodRepository.GetById(foodId);
             if (foodList != null)
             {
-                return new FoodDto
-                {
-                    FoodId = foodList.FoodId,
-                    Name = foodList.Name,
-                    IsVeg = foodList.IsVeg,
-                    Price = foodList.Price,
-                };
+                return foodList.ToDto();
             }
             return null;
         }
@@ -57,14 +51,8 @@ namespace Services.Implementation
                 case FoodType.NonVeg: foodType = 2; break;
             }
             List<FoodDto> foodDtos = _foodRepository.GetFoodLists(filterDto.SearchElement, filterDto.LowToHigh, foodType, skip, pageSize)
-            .Select(foodList => new FoodDto()
-            {
-                Name = foodList.Name,
-                FoodId = foodList.FoodId,
-                Price = foodList.Price,
-                IsVeg = foodList.IsVeg
-            }).ToList();
-            int totalItems = _foodRepository.CountFoodList(filterDto.SearchElement);
+                                .Select(x => x.ToDto()).ToList();
+            int totalItems = _foodRepository.CountFoodList(filterDto.SearchElement,foodType);
             int totalPages = (totalItems + pageSize - 1) / pageSize;
             return new
             {
